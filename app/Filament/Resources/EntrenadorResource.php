@@ -23,9 +23,21 @@ class EntrenadorResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\TextInput::make('user_name')
+                    ->label('Nombres')
+                    ->required(),
+                Forms\Components\TextInput::make('user_apellidos')
+                    ->label('Apellidos')
+                    ->required(),
+                Forms\Components\TextInput::make('user_celular')
+                    ->label('Correo Electrónico')
+                    ->email()
+                    ->required(),
+                Forms\Components\TextInput::make('user_telefono')
+                    ->label('Teléfono')
+                    ->tel()
                     ->required()
-                    ->numeric(),
+                    ->maxLength(15),
                 Forms\Components\Select::make('gimnasio_id')
                     ->label('Gimnasio')
                     ->relationship('gimnasio', 'nombre')
