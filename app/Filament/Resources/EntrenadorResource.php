@@ -29,12 +29,12 @@ class EntrenadorResource extends Resource
                 Forms\Components\TextInput::make('user_apellidos')
                     ->label('Apellidos')
                     ->required(),
-                Forms\Components\TextInput::make('user_celular')
+                Forms\Components\TextInput::make('user_email')
                     ->label('Correo Electrónico')
                     ->email()
                     ->required(),
-                Forms\Components\TextInput::make('user_telefono')
-                    ->label('Teléfono')
+                Forms\Components\TextInput::make('user_celular')
+                    ->label('celular')
                     ->tel()
                     ->required()
                     ->maxLength(15),
@@ -66,24 +66,26 @@ class EntrenadorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Entrenador')
+                    ->getStateUsing(fn($record) => trim(($record->user?->name ?? '') . ' ' . ($record->user?->apellidos ?? '')))
+                    ->searchable(query: function ($query, string $search) {
+                        // Busca por nombre o apellidos
+                        $query->where(
+                            fn($q) =>
+                            $q->where('user_name', 'like', "%{$search}%")
+                                ->orWhere('user_apellidos', 'like', "%{$search}%")
+                        );
+                    }),
+                Tables\Columns\TextColumn::make('gimnasio.nombre')
+                    ->label('Gimnasio')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('gimnasio_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('foto')
+                Tables\Columns\TextColumn::make('user.email')
+                    ->label('Correo Electrónico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('especialidad')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
