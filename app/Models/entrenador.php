@@ -23,4 +23,12 @@ class entrenador extends Model
     {
         return $this->belongsTo(Gimnasio::class);
     }
+    protected static function booted()
+    {
+        static::deleting(function ($entrenador) {
+            if ($entrenador->user) {
+                $entrenador->user->delete();
+            }
+        });
+    }
 }

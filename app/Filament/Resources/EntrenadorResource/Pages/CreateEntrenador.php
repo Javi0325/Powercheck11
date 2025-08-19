@@ -8,28 +8,44 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class CreateEntrenador extends CreateRecord
 {
     protected static string $resource = EntrenadorResource::class;
     protected ?string $generatedPassword = null;
 
-    protected function mutateFormDataBeforeCreate(array $data): array
+    protected function shouldSaveRelationships(): bool
     {
-        $password=Str::password(10);
+        return false;
+    }
+
+    protected function handleRecordCreation(array $data): Model
+    {
+        $userData = data_get($this->data, 'user', []);
+
+        $name = trim((string) data_get($userData, 'name', ''));
+        $apellidos = trim((string) data_get($userData, 'apellidos', ''));
+        $email = trim((string) data_get($userData, 'email', ''));
+        $celular = trim((string) data_get($userData, 'celular', ''));
+        $password = Str::random(10);
         $this->generatedPassword = $password;
 
-        $user= \App\Models\User::create([
-            'name' => $data['user_name'] ,
-            'apellidos'=>  $data['user_apellidos'],
-            'email' => $data['user_email'],
-            'password' => Hash::make($password),
-            'celular' => $data['user_celular'],
-        ]);
-        $user->assignRole('entrenador');
-        $data['user_id'] = $user->id;
-        unset($data['user_name'], $data['user_apellidos'], $data['user_email'], $data['user_celular']);
-        return $data;
+        return DB::transaction(function () use ($data, $name, $apellidos, $email, $celular, $password) {
+            $user = User::create([
+                'name' => $name,
+                'apellidos' => $apellidos,
+                'email' => $email,
+                'celular' => $celular,
+                'password' => Hash::make($password),
+            ]);
+            $user->assignRole('entrenador');
+            $data['user_id'] = $user->id;
+            $model = static::getModel();
+            return $model::create($data);
+        });
     }
     protected function afterCreate(): void
     {

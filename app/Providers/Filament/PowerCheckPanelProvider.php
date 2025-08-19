@@ -29,6 +29,7 @@ class PowerCheckPanelProvider extends PanelProvider
             ->id('powerCheck')
             ->path('powerCheck')
             ->login()
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
