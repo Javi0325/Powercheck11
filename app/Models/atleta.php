@@ -15,6 +15,7 @@ class atleta extends Model
         'fecha_nacimiento',
         'genero',
         'altura',
+        'peso',
         'estilo_vida',
         'lesiones_previas',
     ];
@@ -33,5 +34,13 @@ class atleta extends Model
     public function gimnasio()
     {
         return $this->belongsTo(Gimnasio::class);
+    }
+    protected static function booted()
+    {
+        static::deleting(function ($atleta) {
+            if ($atleta->user) {
+                $atleta->user->delete();
+            }
+        });
     }
 }

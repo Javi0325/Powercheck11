@@ -16,4 +16,16 @@ class EditAtleta extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['user'])) {
+            $this->record->user()->update([
+                'name' => $data['user']['name'],
+                'email' => $data['user']['email'],
+                'celular' => $data['user']['celular'],
+            ]);
+            unset($data['user']);
+        }
+        return $data;
+    }
 }
