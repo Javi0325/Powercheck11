@@ -160,4 +160,22 @@ class AtletaResource extends Resource
             'edit' => Pages\EditAtleta::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user  = auth()->user();
+
+        // Ajusta los nombres de roles a los tuyos
+        if ($user->hasAnyRole(['super_admin'])) {
+            return $query; // ve todo
+        }
+
+        // Si usas tabla Entrenador relacionada a User:
+        $entrenadorId = optional($user->entrenador)->id;
+
+        // Si el User ES el entrenador (sin tabla Entrenador), usa:
+        // $entrenadorId = $user->id;
+
+        return $query->where('entrenador_id', $entrenadorId);
+    }
 }
