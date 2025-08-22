@@ -132,32 +132,6 @@ class ConfigurarPerfil extends Page implements Forms\Contracts\HasForms
             Forms\Components\Section::make('Datos de atleta')
                 ->columns(2)
                 ->schema([
-                    // entrenador_id: si quieres limitar a su propio entrenador:
-                    Forms\Components\Select::make('entrenador_id')
-                        ->label('Entrenador')
-                        ->relationship('entrenador', 'id') // muestra id por defecto… mejor usa display personalizado:
-                        ->options(fn() => Entrenador::query()
-                            ->with('user')
-                            ->get()
-                            ->pluck(fn($e) => $e->user?->name ?? "Entrenador #{$e->id}", 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-
-                    Forms\Components\Select::make('gimnasio_id')
-                        ->label('Gimnasio')
-                        ->relationship('gimnasio', 'nombre')
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-
-                    Forms\Components\FileUpload::make('foto')
-                        ->label('Foto')
-                        ->directory('atletas_fotos')
-                        ->image()
-                        ->default('atletas_fotos/default_photo.png')
-                        ->columnSpanFull(),
-
                     Forms\Components\DatePicker::make('fecha_nacimiento')
                         ->label('Fecha de nacimiento')
                         ->native(false)
@@ -165,17 +139,10 @@ class ConfigurarPerfil extends Page implements Forms\Contracts\HasForms
                         ->closeOnDateSelection()
                         ->nullable(),
 
-                    Forms\Components\Select::make('genero')
-                        ->label('Género')
-                        ->options([
-                            'Masculino' => 'Masculino',
-                            'Femenino' => 'Femenino',
-                        ])
-                        ->required(),
-
                     Forms\Components\TextInput::make('altura')
-                        ->label('Altura (cm o m)')
+                        ->label('Altura (cm)')
                         ->numeric()
+                        ->prefix('cm ')
                         ->minValue(0)
                         ->maxValue(300)
                         ->nullable(),
@@ -184,6 +151,7 @@ class ConfigurarPerfil extends Page implements Forms\Contracts\HasForms
                         ->label('Peso (kg)')
                         ->numeric()
                         ->minValue(0)
+                        ->prefix('kg ')
                         ->maxValue(500)
                         ->nullable(),
 
@@ -213,7 +181,6 @@ class ConfigurarPerfil extends Page implements Forms\Contracts\HasForms
             'apellidos' => $user->apellidos,
             'celular' => $user->celular,
             'email' => $user->email,
-            'profile_photo_path' => $user->profile_photo_path,
         ]);
 
         // ENTRENADOR
