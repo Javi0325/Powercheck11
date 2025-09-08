@@ -18,7 +18,8 @@ class AtletaResource extends Resource
 {
     protected static ?string $model = Atleta::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // app/Filament/Resources/AtletaResource.php
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
@@ -57,7 +58,8 @@ class AtletaResource extends Resource
                     ->openable()     // botón para abrir
                     ->downloadable(), // botón para descargar
                 Forms\Components\DatePicker::make('fecha_nacimiento')
-                    ->label('Fecha de Nacimiento'),
+                    ->label('Fecha de Nacimiento')
+                    ->maxDate(now()),
                 Forms\Components\Select::make('genero')
                     ->label('Género')
                     ->options([

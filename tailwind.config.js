@@ -8,6 +8,10 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+
+        './vendor/filament/**/*.blade.php',
+  './resources/views/filament/**/*.blade.php',
+  './app/Livewire/**/*.php'
     ],
     theme: {
         extend: {

@@ -32,41 +32,47 @@ class PowerCheckPanelProvider extends PanelProvider
             ->path('powerCheck')
             ->login()
             ->profile()
+
+            // Colores del panel (azul oscuro / primario)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#2563eb'),
             ])
+
+            // <<--- IMPORTANTE: fuera de ->colors()
+            ->viteTheme('resources/css/filament/powercheck/theme.css')
+
             ->userMenuItems([
-                UserMenuItem::make()
+                \Filament\Navigation\UserMenuItem::make()
                     ->label('Configurar perfil')
                     ->icon('heroicon-o-cog-6-tooth')
-                    ->url(fn() => ConfigurarPerfil::getUrl()),
+                    ->url(fn() => \App\Filament\Pages\ConfigurarPerfil::getUrl()),
             ])
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                \Filament\Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                \Filament\Widgets\AccountWidget::class,
             ])
             ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
+                \Illuminate\Cookie\Middleware\EncryptCookies::class,
+                \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+                \Illuminate\Session\Middleware\StartSession::class,
+                \Filament\Http\Middleware\AuthenticateSession::class,
+                \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+                \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+                \Illuminate\Routing\Middleware\SubstituteBindings::class,
+                \Filament\Http\Middleware\DisableBladeIconComponents::class,
+                \Filament\Http\Middleware\DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                FilamentShieldPlugin::make(),
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
             ])
             ->authMiddleware([
-                Authenticate::class,
+                \Filament\Http\Middleware\Authenticate::class,
             ]);
     }
 }

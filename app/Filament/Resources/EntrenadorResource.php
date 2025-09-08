@@ -17,7 +17,8 @@ class EntrenadorResource extends Resource
 {
     protected static ?string $model = Entrenador::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // app/Filament/Resources/EntrenadorResource.php
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     public static function form(Form $form): Form
     {

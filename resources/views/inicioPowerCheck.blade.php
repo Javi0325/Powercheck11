@@ -28,14 +28,19 @@
                         }
                     },
                     boxShadow: {
-                        soft: '0 10px 30px rgba(2, 6, 23, 0.08)'
+                        /* sombra suave genérica (la mantengo igual) */
+                        soft: '0 10px 30px rgba(2, 6, 23, 0.08)',
+                        /* NUEVA sombra más notoria para los dos cards del about */
+                        strong: '0 25px 60px rgba(2, 6, 23, 0.18)'
                     }
                 }
             }
         }
     </script>
+
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         [x-cloak] {
             display: none
@@ -43,7 +48,7 @@
     </style>
 </head>
 
-<body class="antialiased bg-white text-slate-800 dark:bg-gray-900 dark:text-slate-100">
+<body class="antialiased bg-blue-100 text-slate-800 dark:bg-gray-900 dark:text-slate-100">
 
     <!-- NAVBAR -->
     <nav x-data="{ open: false }" class="fixed top-0 z-30 w-full text-white shadow start-0 bg-primary-900">
@@ -54,8 +59,9 @@
             </a>
             <div class="flex items-center gap-3 md:order-2">
                 <a href="{{ route('filament.powerCheck.auth.login') }}"
-                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">Iniciar
-                    Sesión</a>
+                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    Iniciar Sesión
+                </a>
                 <button @click="open=!open" type="button"
                     class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm rounded-lg md:hidden hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-600">
                     <span class="sr-only">Abrir menú</span>
@@ -85,9 +91,8 @@
         </div>
     </nav>
 
-    <!-- MAIN (sin padding-top para quitar línea blanca bajo el header) -->
+    <!-- MAIN -->
     <main id="inicio" class="pt-0">
-
         <!-- HERO con carrusel (fade automático) -->
         <section x-data="heroCarousel()" x-init="init()"
             class="relative min-h-[100vh] flex items-center isolate overflow-hidden">
@@ -144,53 +149,40 @@
             </button>
         </section>
 
-
-        <!-- Controles -->
-        <button @click="prev()"
-            class="absolute grid w-10 h-10 text-white -translate-y-1/2 rounded-full left-2 top-1/2 place-items-center bg-black/40 hover:bg-black/60"
-            aria-label="Anterior">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-        </button>
-        <button @click="next()"
-            class="absolute grid w-10 h-10 text-white -translate-y-1/2 rounded-full right-2 top-1/2 place-items-center bg-black/40 hover:bg-black/60"
-            aria-label="Siguiente">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
-        </section>
-
-
         <!-- Filosofía & Qué es (con imágenes) -->
-        <section id="about" class="py-20 bg-white dark:bg-gray-900 scroll-mt-[88px] md:scroll-mt-[96px]">
+        <section id="about" class="py-20 bg-transparent dark:bg-gray-900 scroll-mt-[88px] md:scroll-mt-[96px]">
             <div class="grid max-w-screen-xl grid-cols-1 gap-10 px-4 mx-auto md:grid-cols-2">
+                <!-- AUMENTO de sombra: shadow-strong -->
                 <article
-                    class="p-6 border border-gray-100 sm:p-8 rounded-2xl dark:border-gray-800 bg-gray-50 dark:bg-gray-800/40 shadow-soft">
+                    class="p-6 border border-gray-100 sm:p-8 rounded-2xl dark:border-gray-800 bg-white/90 dark:bg-gray-800/40 shadow-strong">
                     <img src="{{ asset('image/filosofia.jpg') }}" alt="Filosofía de la Asociación"
                         class="object-cover w-full mb-4 h-44 rounded-xl">
                     <h2 class="mb-3 text-3xl font-semibold">Filosofía de la Asociación</h2>
-                    <p class="text-lg leading-relaxed">La Asociación de Powerlifting Bolivia está comprometida con el
-                        crecimiento y desarrollo del powerlifting a nivel nacional, promoviendo la integración y el
-                        fortalecimiento físico de todos sus miembros.</p>
+                    <p class="text-lg leading-relaxed">
+                        La Asociación de Powerlifting Bolivia está comprometida con el crecimiento y desarrollo del
+                        powerlifting a nivel nacional, promoviendo la integración y el fortalecimiento físico de todos
+                        sus miembros.
+                    </p>
                 </article>
+
+                <!-- AUMENTO de sombra: shadow-strong -->
                 <article
-                    class="p-6 border border-gray-100 sm:p-8 rounded-2xl dark:border-gray-800 bg-gray-50 dark:bg-gray-800/40 shadow-soft">
+                    class="p-6 border border-gray-100 sm:p-8 rounded-2xl dark:border-gray-800 bg-white/90 dark:bg-gray-800/40 shadow-strong">
                     <img src="{{ asset('image/powerlifting.jpg') }}" alt="¿Qué es Powerlifting?"
                         class="object-cover w-full mb-4 h-44 rounded-xl">
                     <h2 class="mb-3 text-3xl font-semibold">¿Qué es Powerlifting?</h2>
-                    <p class="text-lg leading-relaxed">El powerlifting es un deporte de fuerza en el que los atletas
-                        levantan el máximo peso posible en tres movimientos: sentadilla, press de banca y deadlift.
-                        Requiere técnica, constancia y progresión inteligente de cargas.</p>
+                    <p class="text-lg leading-relaxed">
+                        El powerlifting es un deporte de fuerza en el que los atletas levantan el máximo peso posible en
+                        tres movimientos: sentadilla, press de banca y deadlift. Requiere técnica, constancia y
+                        progresión inteligente de cargas.
+                    </p>
                 </article>
             </div>
         </section>
 
         <!-- Cómo funciona (3 pasos) -->
-        <section id="como-funciona" class="py-16 bg-gray-50 dark:bg-gray-800/30 scroll-mt-[88px] md:scroll-mt-[96px]">
+        <section id="como-funciona"
+            class="py-16 bg-white/70 dark:bg-gray-800/30 scroll-mt-[88px] md:scroll-mt-[96px]">
             <div class="max-w-screen-xl px-4 mx-auto">
                 <h2 class="text-3xl font-semibold text-center">¿Cómo funciona?</h2>
                 <p class="mt-2 text-center text-slate-600 dark:text-slate-300">De la planificación al análisis técnico
@@ -213,16 +205,19 @@
                     <div
                         class="p-6 bg-white border border-gray-100 rounded-2xl dark:bg-gray-900 dark:border-gray-800 shadow-soft">
                         <div class="text-4xl font-extrabold">03</div>
-                        <h3 class="mt-2 text-xl font-semibold">Analiza la técnica</h3>
-                        <p class="mt-1 text-slate-600 dark:text-slate-300">Revisa ángulos y consistencia para ajustar
-                            la programación.</p>
+                        <h3 class="mt-2 text-xl font-semibold">Analiza tu progreso</h3>
+                        <p class="mt-1 text-slate-600 dark:text-slate-300">
+                            Visualiza tendencias de cargas, repeticiones y RPE; detecta estancamientos y mejora tus
+                            marcas con datos.
+                        </p>
                     </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Métricas / KPIs (3 tarjetas) -->
-        <section class="py-10 bg-white dark:bg-gray-900 scroll-mt-[88px] md:scroll-mt-[96px]">
+        <!-- Métricas / KPIs -->
+        <section class="py-10 bg-transparent dark:bg-gray-900 scroll-mt-[88px] md:scroll-mt-[96px]">
             <div class="grid max-w-screen-xl grid-cols-2 gap-6 px-4 mx-auto text-center sm:grid-cols-3">
                 <div>
                     <div class="text-3xl font-bold">+120</div>
@@ -240,7 +235,7 @@
         </section>
 
         <!-- Gyms -->
-        <section id="gyms" class="bg-gray-50 dark:bg-gray-800/30 py-20 scroll-mt-[88px] md:scroll-mt-[96px]">
+        <section id="gyms" class="bg-white/70 dark:bg-gray-800/30 py-20 scroll-mt-[88px] md:scroll-mt-[96px]">
             <div class="max-w-screen-xl px-4 mx-auto">
                 <div class="flex items-end justify-between mb-8">
                     <h2 class="text-3xl font-semibold">Gyms Registrados</h2>
@@ -267,64 +262,9 @@
                 </div>
             </div>
         </section>
-
-        <!-- Testimonios (suave, visible siempre) -->
-        <section x-data="testimonialSlider()" x-init="init()"
-            class="py-16 bg-white dark:bg-gray-900 scroll-mt-[88px] md:scroll-mt-[96px]">
-            <div class="max-w-screen-xl px-4 mx-auto">
-                <h2 class="text-3xl font-semibold text-center">Lo que dicen los atletas</h2>
-                <div class="mt-10 max-w-3xl mx-auto relative min-h-[220px]">
-                    <template x-for="(t, i) in items" :key="i">
-                        <blockquote
-                            class="absolute inset-0 p-6 transition duration-500 ease-out border border-gray-100 rounded-2xl sm:p-8 bg-gray-50 dark:bg-gray-800/50 dark:border-gray-800 shadow-soft"
-                            :class="current === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'">
-                            <p class="text-lg">“<span x-text="t.text"></span>”</p>
-                            <footer class="mt-4 text-sm text-slate-600 dark:text-slate-300">
-                                <span class="font-semibold" x-text="t.name"></span> — <span x-text="t.role"></span>
-                            </footer>
-                        </blockquote>
-                    </template>
-                    <div class="absolute left-0 right-0 flex justify-center gap-2 mt-6 -bottom-10">
-                        <template x-for="(t, i) in items" :key="i">
-                            <button @click="go(i)" class="w-6 h-2 rounded-full"
-                                :class="current === i ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-700'"></button>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ -->
-        <section class="py-16 bg-gray-50 dark:bg-gray-800/30 scroll-mt-[88px] md:scroll-mt-[96px]">
-            <div class="max-w-screen-xl px-4 mx-auto">
-                <h2 class="text-3xl font-semibold text-center">Preguntas frecuentes</h2>
-                <div class="max-w-3xl mx-auto mt-8 space-y-3">
-                    <details
-                        class="p-4 bg-white border border-gray-200 group rounded-xl dark:border-gray-700 dark:bg-gray-900 open:shadow-soft">
-                        <summary class="font-medium cursor-pointer">¿Necesito un teléfono específico para grabar la
-                            técnica?</summary>
-                        <p class="mt-2 text-slate-600 dark:text-slate-300">No, cualquier smartphone moderno funciona.
-                            Recomendamos buena iluminación y trípode si es posible.</p>
-                    </details>
-                    <details
-                        class="p-4 bg-white border border-gray-200 group rounded-xl dark:border-gray-700 dark:bg-gray-900 open:shadow-soft">
-                        <summary class="font-medium cursor-pointer">¿Se guardan mis videos?</summary>
-                        <p class="mt-2 text-slate-600 dark:text-slate-300">Puedes decidir si mantenerlos en tu
-                            historial o solo subirlos para análisis puntual.</p>
-                    </details>
-                    <details
-                        class="p-4 bg-white border border-gray-200 group rounded-xl dark:border-gray-700 dark:bg-gray-900 open:shadow-soft">
-                        <summary class="font-medium cursor-pointer">¿Puedo compartir rutinas con mi equipo?</summary>
-                        <p class="mt-2 text-slate-600 dark:text-slate-300">Sí, los entrenadores pueden clonar y asignar
-                            rutinas a múltiples atletas.</p>
-                    </details>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- FOOTER compacto -->
+    <!-- FOOTER -->
     <footer class="pt-8 pb-4 text-white bg-primary-900">
         <div class="max-w-screen-xl px-4 mx-auto">
             <div class="grid grid-cols-1 gap-8 pb-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -381,7 +321,7 @@
                 init() {
                     this.intervalId = setInterval(() => {
                         this.next()
-                    }, 4000); // cada 4s
+                    }, 4000);
                     window.addEventListener('beforeunload', () => clearInterval(this.intervalId));
                 },
                 next() {
@@ -392,40 +332,6 @@
                 },
                 go(i) {
                     this.current = i
-                }
-            }
-        }
-
-
-        function testimonialSlider() {
-            return {
-                current: 0,
-                items: [{
-                        text: 'Me ayudó a organizar mis progresiones y evitar estancarme.',
-                        name: 'Carla P.',
-                        role: 'Atleta ABP'
-                    },
-                    {
-                        text: 'Como coach, me ahorra horas a la semana en seguimiento.',
-                        name: 'Luis R.',
-                        role: 'Entrenador'
-                    },
-                    {
-                        text: 'La revisión técnica con video marca la diferencia.',
-                        name: 'Marcos G.',
-                        role: 'Atleta'
-                    }
-                ],
-                timer: null,
-                init() {
-                    this.timer = setInterval(() => this.next(), 5000);
-                    window.addEventListener('beforeunload', () => clearInterval(this.timer));
-                },
-                next() {
-                    this.current = (this.current + 1) % this.items.length;
-                },
-                go(i) {
-                    this.current = i;
                 }
             }
         }
