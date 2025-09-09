@@ -6,7 +6,7 @@ use App\Models\DeviceSession;
 use Illuminate\Support\Carbon;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('inicioPowerCheck');
 });
 Route::get('/home', function () {
     return view('welcome');

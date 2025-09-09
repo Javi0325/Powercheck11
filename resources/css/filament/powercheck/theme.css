@@ -1,0 +1,75 @@
+/* resources/css/filament/powercheck/theme.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================
+   Marca / paleta
+   =========================== */
+:root {
+  --pc-primary-600: #2563eb; /* azul de marca */
+}
+
+/* ===========================
+   Layout / fondo (login / panel)
+   =========================== */
+.fi-body { @apply bg-gray-950; }
+.fi-layout { @apply min-h-screen; }
+.fi-card  { @apply bg-gray-900/90 border border-gray-800; }
+
+/* ===========================
+   Inputs
+   =========================== */
+.fi-input,
+.fi-password-input,
+.fi-select,
+.fi-textarea {
+  @apply bg-gray-800/80 border border-gray-700/60 text-slate-100 placeholder:text-slate-400 rounded-lg;
+  @apply focus:ring-2 focus:ring-[var(--pc-primary-600)] focus:border-[var(--pc-primary-600)];
+}
+
+/* ===========================
+   Botones (forma base + colores)
+   =========================== */
+/* Forma base para que SIEMPRE parezcan botones */
+.fi-btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition
+         border border-transparent;
+}
+
+/* Primario (azul) */
+.fi-btn.fi-btn-primary,
+.fi-btn.fi-color-primary,
+.fi-btn[data-color="primary"] {
+  @apply bg-[var(--pc-primary-600)] text-white hover:bg-blue-700;
+}
+
+/* Secundario / gris (para Cancelar, etc.) */
+.fi-btn.fi-color-gray,
+.fi-btn[data-color="gray"] {
+  @apply bg-gray-700/40 text-white hover:bg-gray-700 border border-gray-600;
+}
+
+/* Peligro / borrar (rojo) */
+.fi-btn.fi-color-danger,
+.fi-btn[data-color="danger"] {
+  @apply bg-red-600 text-white hover:bg-red-700;
+}
+
+/* Éxito (verde) – por si lo usas */
+.fi-btn.fi-color-success,
+.fi-btn[data-color="success"] {
+  @apply bg-emerald-600 text-white hover:bg-emerald-700;
+}
+
+/* Advertencia (amarillo) – por si lo usas */
+.fi-btn.fi-color-warning,
+.fi-btn[data-color="warning"] {
+  @apply bg-amber-500 text-black hover:bg-amber-600;
+}
+
+/* Margen arriba de acciones de formulario */
+.fi-form-actions { @apply mt-6; }
+
+/* Links comunes */
+.fi-link { @apply text-blue-400 hover:text-blue-300; }

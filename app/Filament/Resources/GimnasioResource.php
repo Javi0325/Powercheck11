@@ -17,7 +17,8 @@ class GimnasioResource extends Resource
 {
     protected static ?string $model = Gimnasio::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // app/Filament/Resources/GimnasioResource.php
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
     public static function form(Form $form): Form
     {

@@ -17,27 +17,33 @@ class EntrenadorResource extends Resource
 {
     protected static ?string $model = Entrenador::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // app/Filament/Resources/EntrenadorResource.php
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_name')
-                    ->label('Nombres')
-                    ->required(),
-                Forms\Components\TextInput::make('user_apellidos')
-                    ->label('Apellidos')
-                    ->required(),
-                Forms\Components\TextInput::make('user_celular')
-                    ->label('Correo Electrónico')
-                    ->email()
-                    ->required(),
-                Forms\Components\TextInput::make('user_telefono')
-                    ->label('Teléfono')
-                    ->tel()
-                    ->required()
-                    ->maxLength(15),
+                Forms\Components\Section::make('Información del Entrenador')
+                    ->columns(2)
+                    ->relationship('user')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Nombres')
+                            ->required(),
+                        Forms\Components\TextInput::make('apellidos')
+                            ->label('Apellidos')
+                            ->required(),
+                        Forms\Components\TextInput::make('email')
+                            ->label('Correo Electrónico')
+                            ->email()
+                            ->required(),
+                        Forms\Components\TextInput::make('celular')
+                            ->label('celular')
+                            ->tel()
+                            ->required()
+                            ->maxLength(15),
+                    ]),
                 Forms\Components\Select::make('gimnasio_id')
                     ->label('Gimnasio')
                     ->relationship('gimnasio', 'nombre')
@@ -66,24 +72,26 @@ class EntrenadorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Entrenador')
+                    ->getStateUsing(fn($record) => trim(($record->user?->name ?? '') . ' ' . ($record->user?->apellidos ?? '')))
+                    ->searchable(query: function ($query, string $search) {
+                        // Busca por nombre o apellidos
+                        $query->where(
+                            fn($q) =>
+                            $q->where('user_name', 'like', "%{$search}%")
+                                ->orWhere('user_apellidos', 'like', "%{$search}%")
+                        );
+                    }),
+                Tables\Columns\TextColumn::make('gimnasio.nombre')
+                    ->label('Gimnasio')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('gimnasio_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('foto')
+                Tables\Columns\TextColumn::make('user.email')
+                    ->label('Correo Electrónico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('especialidad')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

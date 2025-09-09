@@ -16,6 +16,7 @@ class RolesSeeder extends Seeder
      * crear un usuario super_admin
      * php artisan tinker
      * $user = App\Models\User::find(1);
+     * $user->assignRole('super_admin');
      */
     protected string $guard = 'web';
     public function run(): void
